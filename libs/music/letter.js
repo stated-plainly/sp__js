@@ -7,7 +7,7 @@ export class Letter {
 	static __a = Symbol();
 	static __b = Symbol();
 
-	static is_valid(letter) {
+	static is(letter) {
 		switch (letter) {
 			case Letter.__c:
 			case Letter.__d:
