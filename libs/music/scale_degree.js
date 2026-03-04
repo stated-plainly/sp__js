@@ -24,6 +24,89 @@ export class ScaleDegree {
 	static __13b = Symbol();
 	static __13 = Symbol();
 
+	static random() {
+		const i = Math.floor(Math.random() * 22);
+
+		switch (i) {
+			case 0:
+				return ScaleDegree.__1;
+			case 1:
+				return ScaleDegree.__2b;
+			case 2:
+				return ScaleDegree.__2;
+			case 3:
+				return ScaleDegree.__3b;
+			case 4:
+				return ScaleDegree.__3;
+			case 5:
+				return ScaleDegree.__4;
+			case 6:
+				return ScaleDegree.__4s;
+			case 7:
+				return ScaleDegree.__5b;
+			case 8:
+				return ScaleDegree.__5;
+			case 9:
+				return ScaleDegree.__5s;
+			case 10:
+				return ScaleDegree.__6b;
+			case 11:
+				return ScaleDegree.__6;
+			case 12:
+				return ScaleDegree.__7b;
+			case 13:
+				return ScaleDegree.__7;
+			case 14:
+				return ScaleDegree.__8;
+			case 15:
+				return ScaleDegree.__9b;
+			case 16:
+				return ScaleDegree.__9;
+			case 17:
+				return ScaleDegree.__9s;
+			case 18:
+				return ScaleDegree.__11;
+			case 19:
+				return ScaleDegree.__11s;
+			case 20:
+				return ScaleDegree.__13b;
+			case 21:
+				return ScaleDegree.__13;
+			default:
+				throw new Error(`The generation of 'i' on line 28 is incorrect. Review it.`);
+		}
+	}
+
+	static is(scale_degree) {
+		switch (scale_degree) {
+			case ScaleDegree.__1:
+			case ScaleDegree.__2b:
+			case ScaleDegree.__2:
+			case ScaleDegree.__3b:
+			case ScaleDegree.__3:
+			case ScaleDegree.__4:
+			case ScaleDegree.__4s:
+			case ScaleDegree.__5b:
+			case ScaleDegree.__5:
+			case ScaleDegree.__5s:
+			case ScaleDegree.__6b:
+			case ScaleDegree.__6:
+			case ScaleDegree.__7b:
+			case ScaleDegree.__7:
+			case ScaleDegree.__8:
+			case ScaleDegree.__9b:
+			case ScaleDegree.__9:
+			case ScaleDegree.__9s:
+			case ScaleDegree.__11:
+			case ScaleDegree.__11s:
+			case ScaleDegree.__13b:
+			case ScaleDegree.__13:
+				return true;
+			default:
+				return false;
+		}
+	}
+
 	static display_name(scale_degree) {
 		switch (scale_degree) {
 			case ScaleDegree.__1:
