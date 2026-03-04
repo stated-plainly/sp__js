@@ -7,6 +7,29 @@ export class Letter {
 	static __a = Symbol();
 	static __b = Symbol();
 
+	static random() {
+		const i = Math.floor(Math.random() * 7);
+
+		switch (i) {
+			case 0:
+				return Letter.__c;
+			case 1:
+				return Letter.__d;
+			case 2:
+				return Letter.__e;
+			case 3:
+				return Letter.__f;
+			case 4:
+				return Letter.__g;
+			case 5:
+				return Letter.__a;
+			case 6:
+				return Letter.__b;
+			default:
+				throw new Error(`The generation of 'i' on line 11 is incorrect. Review it.`);
+		}
+	}
+
 	static is(letter) {
 		switch (letter) {
 			case Letter.__c:
