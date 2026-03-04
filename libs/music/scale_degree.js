@@ -77,6 +77,57 @@ export class ScaleDegree {
 		}
 	}
 
+	static from_keyboard_friendly_name(keyboard_friendly_name) {
+		switch (keyboard_friendly_name) {
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__1):
+				return ScaleDegree.__1;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__2b):
+				return ScaleDegree.__2b;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__2):
+				return ScaleDegree.__2;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__3b):
+				return ScaleDegree.__3b;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__3):
+				return ScaleDegree.__3;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__4):
+				return ScaleDegree.__4;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__4s):
+				return ScaleDegree.__4s;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__5b):
+				return ScaleDegree.__5b;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__5):
+				return ScaleDegree.__5;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__5s):
+				return ScaleDegree.__5s;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__6b):
+				return ScaleDegree.__6b;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__6):
+				return ScaleDegree.__6;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__7b):
+				return ScaleDegree.__7b;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__7):
+				return ScaleDegree.__7;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__8):
+				return ScaleDegree.__8;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__9b):
+				return ScaleDegree.__9b;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__9):
+				return ScaleDegree.__9;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__9s):
+				return ScaleDegree.__9s;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__11):
+				return ScaleDegree.__11;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__11s):
+				return ScaleDegree.__11s;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__13b):
+				return ScaleDegree.__13b;
+			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__13):
+				return ScaleDegree.__13;
+			default:
+				throw new Error(`Illegal 'keyboard_friendly_name' provided.`);
+		}
+	}
+
 	static is(scale_degree) {
 		switch (scale_degree) {
 			case ScaleDegree.__1:
