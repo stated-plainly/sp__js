@@ -7,6 +7,21 @@ export class Letter {
 	static __a = Symbol();
 	static __b = Symbol();
 
+	static is_valid(letter) {
+		switch (letter) {
+			case Letter.__c:
+			case Letter.__d:
+			case Letter.__e:
+			case Letter.__f:
+			case Letter.__g:
+			case Letter.__a:
+			case Letter.__b:
+				return true;
+			default:
+				return false;
+		}
+	}
+
 	static display_name(letter) {
 		switch (letter) {
 			case Letter.__c:
