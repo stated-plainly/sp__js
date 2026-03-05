@@ -59,14 +59,14 @@ export class Note {
 			}
 		}
 
-		return `${Letter.display_name(this.#letter)}${modifier}`;
+		return `${Letter.keyboard_friendly_name(this.#letter)}${modifier}`;
 	}
 
 	static random_diatonic_root() {
 		const letter = Letter.random();
 		const modifier = Math.floor(Math.random() * 3) - 1;
 
-		if (!Math.isInteger(modifier) || modifier < -1 || modifier > 1) {
+		if (!Number.isInteger(modifier) || modifier < -1 || modifier > 1) {
 			throw new Error(`The generation of 'modifier' on line 58 is incorrect. Review it.`);
 		}
 
