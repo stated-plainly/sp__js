@@ -68,6 +68,7 @@ function root_of(root_note, relative_note, scale_degree) {
 
 		const start = (answer === root_note.keyboard_friendly_name) ? ANSI_Palette.good.apply_to('Correct') : ANSI_Palette.bad.apply_to('Incorrect');
 
+		console.clear();
 		console.log(`${start}! ${ANSI_Palette.noun.apply_to(relative_note.display_name)} is the ${ANSI_Palette.verb.apply_to(ScaleDegree.display_name(scale_degree))} of ${ANSI_Palette.focal_point.apply_to(root_note.display_name)}.`)
 		console.log();
 
@@ -84,6 +85,7 @@ function scale_degree_of(root_note, relative_note, scale_degree) {
 
 		const start = (answer === relative_note.keyboard_friendly_name) ? ANSI_Palette.good.apply_to('Correct') : ANSI_Palette.bad.apply_to('Incorrect');
 
+		console.clear();
 		console.log(`${start}! ${ANSI_Palette.focal_point.apply_to(relative_note.display_name)} is the ${ANSI_Palette.verb.apply_to(ScaleDegree.display_name(scale_degree))} of ${ANSI_Palette.noun.apply_to(root_note.display_name)}.`)
 		console.log();
 		
