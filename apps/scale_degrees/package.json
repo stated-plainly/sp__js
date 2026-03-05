@@ -1,0 +1,8 @@
+{
+  "name": "scale_degrees",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+	"scale_degrees": "./src/main.js"
+  }
+}
