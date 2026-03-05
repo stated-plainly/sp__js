@@ -1,4 +1,4 @@
-import { Symbol } from './symbol.js';
+import { Character } from './character.js';
 
 export class ScaleDegree {
 	static __1 = Symbol();
@@ -163,45 +163,45 @@ export class ScaleDegree {
 			case ScaleDegree.__1:
 				return '1';
 			case ScaleDegree.__2b:
-				return `2${Symbol.__b}`;
+				return `2${Character.__b}`;
 			case ScaleDegree.__2:
 				return '2';
 			case ScaleDegree.__3b:
-				return `2${Symbol.__b}`;
+				return `2${Character.__b}`;
 			case ScaleDegree.__3:
 				return '3';
 			case ScaleDegree.__4:
 				return '4';
 			case ScaleDegree.__4s:
-				return `4${Symbol.__s}`;
+				return `4${Character.__s}`;
 			case ScaleDegree.__5b:
-				return `5${Symbol.__b}`;
+				return `5${Character.__b}`;
 			case ScaleDegree.__5:
 				return '5';
 			case ScaleDegree.__5s:
-				return `5${Symbol.__s}`;
+				return `5${Character.__s}`;
 			case ScaleDegree.__6b:
-				return `6${Symbol.__b}`;
+				return `6${Character.__b}`;
 			case ScaleDegree.__6:
 				return '6';
 			case ScaleDegree.__7b:
-				return `7${Symbol.__b}`;
+				return `7${Character.__b}`;
 			case ScaleDegree.__7:
 				return '7';
 			case ScaleDegree.__8:
 				return '8';
 			case ScaleDegree.__9b:
-				return `9${Symbol.__b}`;
+				return `9${Character.__b}`;
 			case ScaleDegree.__9:
 				return '9';
 			case ScaleDegree.__9s:
-				return `9${Symbol.__s}`;
+				return `9${Character.__s}`;
 			case ScaleDegree.__11:
 				return '11';
 			case ScaleDegree.__11s:
-				return `11${Symbol.__s}`;
+				return `11${Character.__s}`;
 			case ScaleDegree.__13b:
-				return `13${Symbol.__b}`;
+				return `13${Character.__b}`;
 			case ScaleDegree.__13:
 				return '13';
 			default:

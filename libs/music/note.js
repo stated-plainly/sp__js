@@ -1,6 +1,6 @@
 import { Letter } from './letter.js';
 import { ScaleDegree } from './scale_degree.js';
-import { Symbol } from './symbol.js';
+import { Character } from './character.js';
 
 export class Note {
 	static #min_modifier = -2; // bb is the lowest occurring diatonic flat
@@ -35,11 +35,11 @@ export class Note {
 
 		if (this.#modifier < 0) {
 			for (let i = this.#modifier; i < 0; i++) {
-				modifier += Symbol.__b;
+				modifier += Character.__b;
 			}
 		} else if (this.#modifier > 0) {
 			for (let i = 1; i <= this.#modifier; i++) {
-				modifier += Symbol.__s;
+				modifier += Character.__s;
 			}
 		}
 
