@@ -25,9 +25,9 @@ export class Colour {
 		}
 
 		this.#r = r;
-		this.#r = g;
-		this.#r = b;
-		this.#r = a;
+		this.#g = g;
+		this.#b = b;
+		this.#a = a;
 	}
 
 	static from_rgb_hex(rgb_hex) {
