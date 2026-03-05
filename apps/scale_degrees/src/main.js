@@ -29,6 +29,7 @@ class Perspective {
 	}
 }
 
+console.clear();
 main();
 
 function main() {
@@ -95,5 +96,6 @@ function scale_degree_of(root_note, relative_note, scale_degree) {
 
 function exit() {
 	rl.close();
+	console.clear();
 	process.exit();
 }
