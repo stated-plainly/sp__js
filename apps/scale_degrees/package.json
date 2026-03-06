@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "bin": {
-	"scale_degrees": "./src/main.js"
+	"scale_degrees": "./src/entry.js"
   }
 }
