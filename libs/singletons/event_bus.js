@@ -38,10 +38,6 @@ export class EventBus {
             throw new Error(`Illegal 'event' value provided. Must be a string.`);
         }
 
-        if (!(typeof data === 'object')) {
-            throw new Error(`Illegal 'data' value provided. Must be an object.`);
-        }
-
         if (!(event in EventBus.#events)) {
             return;
         }
