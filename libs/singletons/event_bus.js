@@ -15,6 +15,8 @@ export class EventBus {
         } else {
             EventBus.#events[event] = [listener];
         }
+
+		return EventBus;
     }
 
     static remove(event, listener = null) {
@@ -27,6 +29,8 @@ export class EventBus {
         }
 
         (listener === null) ? EventBus.#remove_event(event) : EventBus.#remove_listener(event, listener);
+
+		return EventBus;
     }
 
     static trigger(event, data) {
@@ -45,6 +49,8 @@ export class EventBus {
         for (const listener of EventBus.#events[event]) {
             listener(data);
         }
+
+		return EventBus;
     }
 
     static #remove_event(event) {
