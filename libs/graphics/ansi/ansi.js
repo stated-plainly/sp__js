@@ -1,4 +1,6 @@
-import { Colour } from './colour.js';
+// libs
+import { Colour } from '../colour.js';
+import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
 
 export class ANSI {
 	static #__bold = Symbol();
@@ -81,7 +83,7 @@ export class ANSI {
 
 	bg_colour(colour) {
 		if (!(colour instanceof Colour)) {
-			throw new Error(`Illegal 'colour' value provided. Must be of type Colour.`);
+			throw new IllegalArgTypeError('colour', 'Colour');
 		}
 
 		this.#style_rules.push({rule: ANSI.#__bg_colour, colour: colour});
@@ -91,7 +93,7 @@ export class ANSI {
 
 	colour(colour) {
 		if (!(colour instanceof Colour)) {
-			throw new Error(`Illegal 'colour' value provided. Must be of type Colour.`);
+			throw new IllegalArgTypeError('colour', 'Colour');
 		}
 
 		this.#style_rules.push({rule: ANSI.#__colour, colour: colour});
@@ -127,18 +129,4 @@ export class ANSI {
 
 		return text;
 	}
-}
-
-export class ANSI_Palette {
-	static focal_point = new ANSI().bold().colour(Colour.from_rgb_hex('#ff_c1_45')); // yellow
-
-	static verb = new ANSI().bold().italic().colour(Colour.from_rgb_hex('#ce_17_88')); // pink
-	
-	static noun = new ANSI().bold().colour(Colour.from_rgb_hex('#21_34_e7')); // blue
-
-	static ancillary = new ANSI().italic().dim().colour(Colour.from_rgb_hex('#90_71_71')); // grey
-	
-	static good = new ANSI().bold().colour(Colour.from_rgb_hex('#81_ce_5e')); // green
-	
-	static bad = new ANSI().bold().colour(Colour.from_rgb_hex('#ec_37_37')); // red
 }

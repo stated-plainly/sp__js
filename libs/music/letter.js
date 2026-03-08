@@ -1,3 +1,8 @@
+// libs
+import { ANSI_Palette } from '../graphics/ansi/ansi_palette.js';
+import { IllegalArgTypeError } from '../errors/illegal_arg_type_error';
+import { IncorrectLogicalAssumptionError } from '../errors/incorrect_logical_assumption_error.js';
+
 export class Letter {
 	static __c = Symbol();
 	static __d = Symbol();
@@ -26,7 +31,7 @@ export class Letter {
 			case 6:
 				return Letter.__b;
 			default:
-				throw new Error(`The generation of 'i' on line 11 is incorrect. Review it.`);
+				throw new IncorrectLogicalAssumptionError(`${ANSI_Palette.noun.apply_to('i')} generation logic on ${ANSI_Palette.focal_point.apply_to('line 16')} is incorrect. ${ANSI_Palette.noun.apply_to('i')} should be in the range of ${ANSI_Palette.focal_point.apply_to('0..6')}.`);
 		}
 	}
 
@@ -46,6 +51,10 @@ export class Letter {
 	}
 
 	static display_name(letter) {
+		if (!Letter.is(letter)) {
+			throw new IllegalArgTypeError('letter', 'Letter');
+		}
+
 		switch (letter) {
 			case Letter.__c:
 				return 'C';
@@ -61,12 +70,14 @@ export class Letter {
 				return 'A';
 			case Letter.__b:
 				return 'B';
-			default:
-				throw new Error(`Illegal 'letter' value provided.`);
 		}
 	}
 
 	static keyboard_friendly_name(letter) {
+		if (!Letter.is(letter)) {
+			throw new IllegalArgTypeError('letter', 'Letter');
+		}
+
 		switch (letter) {
 			case Letter.__c:
 				return 'c';
@@ -82,8 +93,6 @@ export class Letter {
 				return 'a';
 			case Letter.__b:
 				return 'b';
-			default:
-				throw new Error(`Illegal 'letter' value provided.`);
 		}
 	}
 }

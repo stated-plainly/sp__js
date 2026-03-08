@@ -1,6 +1,10 @@
+// libs
+import { ANSI_Palette } from '../graphics/ansi/ansi_palette.js';
+import { Character } from './character.js';
+import { IllegalArgTypeError } from '../errors/illegal_arg_type_error.js';
+import { IncorrectLogicalAssumptionError } from '../errors/incorrect_logical_assumption_error.js';
 import { Letter } from './letter.js';
 import { ScaleDegree } from './scale_degree.js';
-import { Character } from './character.js';
 
 export class Note {
 	static #min_modifier = -2; // bb is the lowest occurring diatonic flat
@@ -11,11 +15,11 @@ export class Note {
 
 	constructor(letter, modifier) {
 		if (!Letter.is(letter)) {
-			throw new Error(`Illegal 'letter' value provided.`);
+			throw new IllegalArgTypeError('letter', 'Letter');
 		}
 
 		if (!(typeof modifier === 'number' && Number.isInteger(modifier) && modifier >= Note.#min_modifier && modifier <= Note.#max_modifier)) {
-			throw new Error(`Illegal 'modifier' value providied.`);
+			throw new IllegalArgTypeError('modifier', `Int<${Note.#min_modifier}..${Note.#max_modifier}>`);
 		}
 
 		this.#letter = letter;
@@ -67,13 +71,17 @@ export class Note {
 		const modifier = Math.floor(Math.random() * 3) - 1;
 
 		if (!Number.isInteger(modifier) || modifier < -1 || modifier > 1) {
-			throw new Error(`The generation of 'modifier' on line 58 is incorrect. Review it.`);
+			throw new IncorrectLogicalAssumptionError(`${ANSI_Palette.noun.apply_to('modifier')} generation logic on ${ANSI_Palette.focal_point.apply_to('line 71')} is incorrect. ${ANSI_Palette.noun.apply_to('modifier')} should be in the range of -1..1.`);
 		}
 
 		return new Note(letter, modifier);
 	}
 
 	note_at(scale_degree) {
+		if (!ScaleDegree.is(scale_degree)) {
+			throw new IllegalArgTypeError('scale_degree', 'ScaleDegree');
+		}
+
 		switch (scale_degree) {
 			case ScaleDegree.__1:
 				return this.#note_at_1();
@@ -119,8 +127,6 @@ export class Note {
 				return this.#note_at_13b();
 			case ScaleDegree.__13:
 				return this.#note_at_13();
-			default:
-				throw new Error(`Illegal 'scale_degree' provided.`);
 		}
 	}
 

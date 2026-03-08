@@ -1,3 +1,6 @@
+// libs
+import { IllegalArgTypeError } from '../errors/illegal_arg_type_error.js';
+
 export class Colour {
 	static #rgb_hex_regex = /^#([0-9a-f]{2})_([0-9a-f]{2})_([0-9a-f]{2})$/
 	static #rgba_hex_regex = /^#([0-9a-f]{2})_([0-9a-f]{2})_([0-9a-f]{2})_([0-9a-f]{2})$/
@@ -9,19 +12,19 @@ export class Colour {
 
 	constructor(r, g, b, a = 255) {
 		if (!(Number.isInteger(r) && r >= 0 && r <= 255)) {
-			throw new Error(`Illegal 'r' value provided. Must be an integer value between 0 and 255 (inclusive).`);
+			throw new IllegalArgTypeError('r', 'Int<0..255>');
 		}
 
 		if (!(Number.isInteger(g) && g >= 0 && g <= 255)) {
-			throw new Error(`Illegal 'g' value provided. Must be an integer value between 0 and 255 (inclusive).`);
+			throw new IllegalArgTypeError('g', 'Int<0..255>');
 		}
 
 		if (!(Number.isInteger(b) && b >= 0 && b <= 255)) {
-			throw new Error(`Illegal 'b' value provided. Must be an integer value between 0 and 255 (inclusive).`);
+			throw new IllegalArgTypeError('b', 'Int<0..255>');
 		}
 
 		if (!(Number.isInteger(a) && a >= 0 && a <= 255)) {
-			throw new Error(`Illegal 'a' value provided. Must be an integer value between 0 and 255 (inclusive).`);
+			throw new IllegalArgTypeError('a', 'Int<0..255>');
 		}
 
 		this.#r = r;
@@ -32,7 +35,7 @@ export class Colour {
 
 	static from_rgb_hex(rgb_hex) {
 		if (!(typeof rgb_hex === 'string' && Colour.#rgb_hex_regex.test(rgb_hex))) {
-			throw new Error(`Illegal 'rgb_hex' value provided. Must be a string in the format "#rr_gg_bb".`);
+			throw new IllegalArgTypeError('rgb_hex', 'String<#rr_gg_bb>');
 		}
 
 		let [_, r, g, b] = rgb_hex.match(Colour.#rgb_hex_regex);
@@ -46,7 +49,7 @@ export class Colour {
 
 	static from_rgba_hex(rgba_hex) {
 		if (!(typeof rgba_hex === 'string' && Colour.#rgba_hex_regex.test(rgba_hex))) {
-			throw new Error(`Illegal 'rgba_hex' value provided. Must be a string in the format "#rr_gg_bb_aa".`);
+			throw new IllegalArgTypeError('rgb_hex', 'String<#rr_gg_bb_aa>');
 		}
 
 		let [_, r, g, b, a] = rgba_hex.match(Colour.#rgba_hex_regex);

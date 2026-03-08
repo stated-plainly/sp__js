@@ -1,5 +1,7 @@
+// libs
+import { IllegalArgTypeError } from '../errors/illegal_arg_type_error.js';
 import { LexemeType } from './lexeme_type.js';
-import { Token } from './token';
+import { Token } from './token.js';
 
 export class Lexer {
 	#lexemes;
@@ -12,11 +14,11 @@ export class Lexer {
 
 	add_value_lexeme(name, value) {
 		if (!(typeof name === 'string')) {
-			throw new Error(`Illegal 'name' value provided. Must be a string`);
+			throw new IllegalArgTypeError('name', 'String');
 		}
 
 		if (!(typeof value === 'string')) {
-			throw new Error(`Illegal 'value' value provided. Must be a string`);
+			throw new IllegalArgTypeError('value', 'String');
 		}
 
 		this.#lexemes.push({type: LexemeType.__value, name: name, value: value});
@@ -26,11 +28,11 @@ export class Lexer {
 
 	add_pattern_lexeme(name, pattern) {
 		if (!(typeof name === 'string')) {
-			throw new Error(`Illegal 'name' value provided. Must be a string`);
+			throw new IllegalArgTypeError('name', 'String');
 		}
 
 		if (!(pattern instanceof RegExp)) {
-			throw new Error(`Illegal 'pattern' value provided. Must be a RegExp.`);
+			throw new IllegalArgTypeError('pattern', 'RegExp');
 		}
 
 		this.#lexemes.push({type: LexemeType.__pattern, name: name, pattern: pattern});
@@ -42,7 +44,7 @@ export class Lexer {
 		this.#tokens = [];
 
 		if (!(typeof source_code === 'string')) {
-			throw new Error(`Illegal 'source_code' value provided. Must be a string.`);
+			throw new IllegalArgTypeError('source_code', 'String');
 		}
 
 		for (let i = 0; i < source_code.length; i++) {

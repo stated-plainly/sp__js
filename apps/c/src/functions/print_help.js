@@ -1,4 +1,5 @@
-import { ANSI_Palette } from '../../../../libs/graphics/ansi.js';
+// libs
+import { ANSI_Palette } from '../../../../libs/graphics/ansi/ansi_palette.js';
 
 export function print_help() {
 	console.clear();

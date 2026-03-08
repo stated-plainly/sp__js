@@ -1,4 +1,8 @@
+// libs
+import { ANSI_Palette } from '../graphics/ansi/ansi_palette.js';
 import { Character } from './character.js';
+import { IllegalArgTypeError } from '../errors/illegal_arg_type_error.js';
+import { IncorrectLogicalAssumptionError } from '../errors/incorrect_logical_assumption_error.js';
 
 export class ScaleDegree {
 	static __1 = Symbol();
@@ -73,7 +77,7 @@ export class ScaleDegree {
 			case 21:
 				return ScaleDegree.__13;
 			default:
-				throw new Error(`The generation of 'i' on line 28 is incorrect. Review it.`);
+				throw new IncorrectLogicalAssumptionError(`${ANSI_Palette.noun.apply_to('i')} generation logic on ${ANSI_Palette.focal_point.apply_to('line 32')} is incorrect. ${ANSI_Palette.noun.apply_to('i')} should be in the range of ${ANSI_Palette.focal_point.apply_to('0..21')}.`);
 		}
 	}
 
@@ -124,7 +128,7 @@ export class ScaleDegree {
 			case ScaleDegree.keyboard_friendly_name(ScaleDegree.__13):
 				return ScaleDegree.__13;
 			default:
-				throw new Error(`Illegal 'keyboard_friendly_name' provided.`);
+				throw new IllegalArgTypeError('keyboard_friendly_name', 'String<1|2b|2|3b|3|4|4s|5b|5|5s|6b|6|7b|7|8|9b|9|9s|11|11s|13b|13>');
 		}
 	}
 
@@ -159,6 +163,10 @@ export class ScaleDegree {
 	}
 
 	static display_name(scale_degree) {
+		if (!ScaleDegree.is(scale_degree)) {
+			throw new IllegalArgTypeError('scale_degree', 'ScaleDegree');
+		}
+
 		switch (scale_degree) {
 			case ScaleDegree.__1:
 				return '1';
@@ -204,12 +212,14 @@ export class ScaleDegree {
 				return `13${Character.__b}`;
 			case ScaleDegree.__13:
 				return '13';
-			default:
-				throw new Error(`Illegal 'scale_degree' value provided.`);
 		}
 	}
 
 	static keyboard_friendly_name(scale_degree) {
+		if (!ScaleDegree.is(scale_degree)) {
+			throw new IllegalArgTypeError('scale_degree', 'ScaleDegree');
+		}
+
 		switch (scale_degree) {
 			case ScaleDegree.__1:
 				return '1';
@@ -255,8 +265,6 @@ export class ScaleDegree {
 				return '13b';
 			case ScaleDegree.__13:
 				return '13';
-			default:
-				throw new Error(`Illegal 'scale_degree' value provided.`);
 		}
 	}
 }

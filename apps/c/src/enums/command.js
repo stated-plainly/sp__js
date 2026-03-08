@@ -1,10 +1,9 @@
+// libs
+import { IllegalArgTypeError } from '../../../../libs/errors/illegal_arg_type_error.js';
+
 export class Command {
 	static __build = Symbol();
 	static __run = Symbol();
-
-	static illegal_command_message(arg_name) {
-		return `Illegal '${arg_name}' provided. Must be a variant of the Command enum.`;
-	}
 
 	static as_array() {
 		return [
@@ -14,20 +13,18 @@ export class Command {
 	}
 
 	static is(command) {
-		if (command === Command.__build) {
-			return true;
+		switch (command) {
+			case Command.__build:
+			case Command.__run:
+				return true;
+			default:
+				return false;
 		}
-
-		if (command === Command.__run) {
-			return true;
-		}
-
-		return false;
 	}
 
 	static as_text(command) {
 		if (!Command.is(command)) {
-			throw new Error(Command.illegal_command_message('command'));
+			throw new IllegalArgTypeError('command', 'Command');
 		}
 
 		switch (command) {
@@ -40,7 +37,7 @@ export class Command {
 
 	static from_text(command_text) {
 		if (!(typeof command_text === 'string')) {
-			throw new Error(`Illegal 'command_text' provided. Must be a string.`);
+			throw new IllegalArgTypeError('command_text', 'String');
 		}
 
 		for (const command of Command.as_array()) {
