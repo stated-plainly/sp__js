@@ -36,18 +36,16 @@ export class InterLangParser {
 	}
 
 	#parse_kvp(tokens) {
-		let current_token = null;
+		let current_token = this.#current_token(tokens);
 
 		let key_value = '';
 		let value_type = '';
 
-		let last_kvp_part = 'start';
+		let next_kvp_part = 'pre-key :: tab-indents';
 
 		kvp_loop: while (true) {
-			current_token = (current_token === null) ? this.#current_token(tokens) : this.#advance_token(tokens);
-
-			switch (last_kvp_part) {
-				case 'start':
+			switch (next_kvp_part) {
+				case 'pre-key :: tab-indents':
 					if (this.#tab_indent_count > 0) {
 						for (let i = 0; i < this.#tab_indent_count; i++) {
 							if (current_token === false) {
@@ -56,27 +54,21 @@ export class InterLangParser {
 								throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\t'))} ${ANSI_Palette.verb.apply_to(i + 1)}/${this.#tab_indent_count} to continue indentation to ${ANSI_Palette.verb.apply_to('1')} in from ${ANSI_Palette.noun.apply_to('Object')} wrapper indentation level. Encountered ${ANSI_Palette.bad.apply_to(Text.escape(current_token.value))}.`));
 							}
 
-							if (i < (this.#tab_indent_count - 1)) {
-								current_token = this.#advance_token(tokens);
-							}
+							current_token = this.#advance_token(tokens);
 						}
-					} else {
-						current_token = null;
 					}
 
-					last_kvp_part = 'tab-indent-end';
-					continue kvp_loop;
-				case 'tab-indent-end':
 					if (current_token === false) {
-						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('[a-z]')}, signifying the first character of a key. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`))
-					} else if (!(current_token.name === 'letter :: lower')) {
-						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('[a-z]')}, signifying the first character of a key. Encountered ${ANSI_Palette.bad.apply_to(Text.escape(current_token.value))}.`))
+						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('[a-z]')} to signify the start of a key. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					}
-
-					last_kvp_part = 'key :: letter';
-					key_value += current_token.value;
+					
+					next_kvp_part = 'key :: letter_block';
 					continue kvp_loop;
-				case 'key :: letter':
+				case 'key :: letter_block':
+					key_value += current_token.value;
+
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('[a-z]')} or ${ANSI_Palette.focal_point.apply_to('_')} to continue the current key, or ${ANSI_Palette.focal_point.apply_to(':')} to end it. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					} else if (!(current_token.name === 'letter :: lower' || current_token.name === 'underscore' || current_token.name === 'colon')) {
@@ -85,17 +77,19 @@ export class InterLangParser {
 
 					switch (current_token.name) {
 						case 'letter :: lower':
-							key_value += current_token.value;
 							continue kvp_loop;
 						case 'underscore':
-							last_kvp_part = 'key :: divider';
-							key_value += current_token.value;
+							next_kvp_part = 'key :: divider';
 							continue kvp_loop;
 						case 'colon':
-							last_kvp_part = 'key :: end';
+							next_kvp_part = 'kvp divider';
 							continue kvp_loop;
 					}
-				case 'key :: number':
+				case 'key :: number_block':
+					key_value += current_token.value;
+
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('[0-9]')} or ${ANSI_Palette.focal_point.apply_to('_')} to continue the current key, or ${ANSI_Palette.focal_point.apply_to(':')} to end it. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					} else if (!(current_token.name === 'number' || current_token.name === 'underscore' || current_token.name === 'colon')) {
@@ -104,17 +98,19 @@ export class InterLangParser {
 
 					switch (current_token.name) {
 						case 'number':
-							key_value += current_token.value;
 							continue kvp_loop;
 						case 'underscore':
-							last_kvp_part = 'key :: divider';
-							key_value += current_token.value;
+							next_kvp_part = 'key :: divider';
 							continue kvp_loop;
 						case 'colon':
-							last_kvp_part = 'key :: end';
+							next_kvp_part = 'kvp divider';
 							continue kvp_loop;
 					}
 				case 'key :: divider':
+					key_value += current_token.value;
+
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('[a-z]')} or ${ANSI_Palette.focal_point.apply_to('[0-9]')} to continue the current key. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					} else if (!(current_token.name === 'letter :: lower' || current_token.name === 'number')) {
@@ -123,30 +119,32 @@ export class InterLangParser {
 
 					switch (current_token.name) {
 						case 'letter :: lower':
-							last_kvp_part = 'key :: letter';
-							key_value += current_token.value;
+							next_kvp_part = 'key :: letter_block';
 							continue kvp_loop;
 						case 'number':
-							last_kvp_part = 'key :: number';
-							key_value += current_token.value;
+							next_kvp_part = 'key :: number_block';
 							continue kvp_loop;
 					}
-				case 'key :: end':
+				case 'kvp divider':
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('" "')} to separate the current KVP. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					} else if (!(current_token.name === 'whitespace')) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('" "')} to separate the current KVP. Encountered ${ANSI_Palette.bad.apply_to(Text.escape(current_token.value))}.`));
 					}
 
-					last_kvp_part = 'kvp divider :: end';
-					continue kvp_loop;
-				case 'kvp divider :: end':
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('(')} to signify the start of a ${ANSI_Palette.verb.apply_to('String')} or ${ANSI_Palette.focal_point.apply_to('[')} to signify the start of a ${ANSI_Palette.verb.apply_to('List')} or ${ANSI_Palette.focal_point.apply_to('{')} to signify the start of an ${ANSI_Palette.verb.apply_to('Object')}. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					} else if (!(current_token.name === 'paren :: open' || current_token.name === 'square :: open' || current_token.name === 'curly :: open')) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to('(')} to signify the start of a ${ANSI_Palette.verb.apply_to('String')} or ${ANSI_Palette.focal_point.apply_to('[')} to signify the start of a ${ANSI_Palette.verb.apply_to('List')} or ${ANSI_Palette.focal_point.apply_to('{')} to signify the start of an ${ANSI_Palette.verb.apply_to('Object')}. Encountered ${ANSI_Palette.bad.apply_to(Text.escape(current_token.value))}.`));
 					}
 
+					next_kvp_part = 'value';
+					continue kvp_loop;
+				case 'value':
 					switch (current_token.name) {
 						case 'paren :: open':
 							value_type = 'string';
@@ -158,6 +156,8 @@ export class InterLangParser {
 							value_type = 'object';
 							break kvp_loop;
 					}
+
+					break kvp_loop;
 			}
 		}
 
