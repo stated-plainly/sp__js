@@ -185,35 +185,38 @@ export class InterLangParser {
 	}
 
 	#parse_string(tokens) {
-		let current_token;
+		let current_token = this.#current_token(tokens);
 
 		let string_value = '';
 
-		let last_string_part = 'start';
+		let next_string_part = 'start';
 
 		string_loop: while (true) {
-			current_token = this.#advance_token(tokens);
-
-			switch (last_string_part) {
+			switch (next_string_part) {
 				case 'start':
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\n'))}, to signify the start of a multi-line ${ANSI_Palette.verb.apply_to('String')} or ${ANSI_Palette.focal_point.apply_to(Text.escape(')\n'))}, to signify the end of the ${ANSI_Palette.verb.apply_to('String')}, or any other character, to signify part of the ${ANSI_Palette.noun.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					}
 					
 					switch (current_token.name) {
 						case 'newline':
-							last_string_part = 'multi :: line-end';
 							this.#tab_indent_count += 1;
+							next_string_part = 'multi :: line-end';
 							continue string_loop;
 						case 'paren :: close':
-							last_string_part = 'single :: potential-end';
+							next_string_part = 'single :: potential-end';
 							continue string_loop;
 						default:
-							last_string_part = 'single :: body';
-							string_value += current_token.value;
+							next_string_part = 'single :: body';
 							continue string_loop;
 					}
 				case 'single :: body':
+					string_value += current_token.value;
+
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape(')\n'))}, to signify the end of the ${ANSI_Palette.noun.apply_to('String')}, or any character aside from ${ANSI_Palette.bad.apply_to(Text.escape('\n'))}, to signify a continuation of the ${ANSI_Palette.verb.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					} else if (current_token.name === 'newline') {
@@ -222,28 +225,53 @@ export class InterLangParser {
 
 					switch (current_token.name) {
 						case 'paren :: close':
-							last_string_part = 'single :: potential-end';
+							next_string_part = 'single :: potential-end';
 							continue string_loop;
 						default:
-							string_value += current_token.value;
 							continue string_loop;
 					}
 				case 'single :: potential-end':
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\n'))}, to signify the end of the ${ANSI_Palette.noun.apply_to('String')}, or any other character, to signify a continuation of the ${ANSI_Palette.verb.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
 					}
 
 					switch (current_token.name) {
 						case 'newline':
-							this.#advance_token(tokens);
-
-							break string_loop;
+							next_string_part = 'end'
+							continue string_loop;
 						default:
-							last_string_part = 'single :: body';
-							string_value += `)${current_token.value}`;
+							string_value += `)`;
+							next_string_part = 'single :: body';
 							continue string_loop;
 					}
 				case 'multi :: line-end':
+					current_token = this.#advance_token(tokens);
+
+					if (current_token === false) {
+						if (this.#tab_indent_count === 1) {
+							throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\t'))} to signify the start of the next multi-line ${ANSI_Palette.noun.apply_to('String')} line, or ${ANSI_Palette.focal_point.apply_to(Text.escape(')\n'))} to signify the end of the multi-line ${ANSI_Palette.noun.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
+						} else {
+							throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\t'))} to signify the start of the next multi-line ${ANSI_Palette.noun.apply_to('String')} line. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
+						}
+					} else if (!(current_token.name === 'tab' || (this.#tab_indent_count === 1 && current_token.name === 'paren :: close'))) {
+						if (this.#tab_indent_count === 1) {
+							throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\t'))} to signify the start of the next multi-line ${ANSI_Palette.noun.apply_to('String')} line, or ${ANSI_Palette.focal_point.apply_to(Text.escape(')\n'))} to signify the end of the multi-line ${ANSI_Palette.noun.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to(Text.escape(current_token.value))}.`));
+						} else {
+							throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\t'))} to signify the start of the next multi-line ${ANSI_Palette.noun.apply_to('String')} line. Encountered ${ANSI_Palette.bad.apply_to(Text.escape(current_token.value))}.`));
+						}
+					}
+
+					switch (current_token.name) {
+						case 'tab':
+							next_string_part = 'multi :: tab-indents';
+							continue string_loop;
+						case 'paren :: close':
+							next_string_part = 'multi :: potential-end';
+							continue string_loop;
+					}
+				case 'multi :: tab-indents':
 					for (let i = 0; i < this.#tab_indent_count; i++) {
 						if (current_token === false) {
 							if (i === (Math.max(this.#tab_indent_count - 2, 0))) {
@@ -260,34 +288,38 @@ export class InterLangParser {
 						}
 
 						if (current_token.name === 'paren :: close') {
-							last_string_part = 'multi :: potential-end';
+							next_string_part = 'multi :: potential-end';
 							continue string_loop;
 						}
 
-						if (i < (this.#tab_indent_count - 1)) {
-							current_token = this.#advance_token(tokens);
-						}
+						current_token = this.#advance_token(tokens);
 					}
 
-					last_string_part = 'multi :: tab-indent-end';
-					continue string_loop;
-				case 'multi :: tab-indent-end':
-				case 'multi :: body':
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\n'))} to signify the end of the current line of the multi-line ${ANSI_Palette.noun.apply_to('String')} or any other character to signify a continuation of the current line of the multi-line ${ANSI_Palette.noun.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to(Text.escape('end of file'))}.`));
 					}
 
+					next_string_part = 'multi :: body';
+					continue string_loop;
+				case 'multi :: body':
+					string_value += current_token.value;
+
+					current_token = this.#advance_token(tokens);
+
+					if (current_token === false) {
+						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\n'))}, to signify the end of the current multi-line ${ANSI_Palette.noun.apply_to('String')} line, or any character to signify a continuation of the line ${ANSI_Palette.verb.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to('end of file')}.`));
+					}
+
 					switch (current_token.name) {
 						case 'newline':
-							last_string_part = 'multi :: line-end';
-							string_value += current_token.value;
+							next_string_part = 'multi :: line-end';
 							continue string_loop;
 						default:
-							last_string_part = 'multi :: body';
-							string_value += current_token.value;
 							continue string_loop;
 					}
 				case 'multi :: potential-end':
+					current_token = this.#advance_token(tokens);
+
 					if (current_token === false) {
 						throw new UserError(this.#error_message__parse_error(`Expected ${ANSI_Palette.focal_point.apply_to(Text.escape('\n'))} to signify the end of the multi-line ${ANSI_Palette.noun.apply_to('String')}. Encountered ${ANSI_Palette.bad.apply_to(Text.escape('end of file'))}.`));
 					} else if (!(current_token.name === 'newline')) {
@@ -301,8 +333,11 @@ export class InterLangParser {
 					}
 
 					this.#tab_indent_count -= 1;
-					this.#advance_token(tokens);
 
+					next_string_part = 'end';
+					continue string_loop;
+				case 'end':
+					this.#advance_token(tokens);
 					break string_loop;
 			}
 		}
