@@ -1,3 +1,7 @@
+// libs
+import { ANSI } from './ansi.js';
+import { Colour } from '../colour.js';
+
 export class ANSI_Palette {
 	static focal_point = new ANSI().bold().colour(Colour.from_rgb_hex('#ff_c1_45')); // yellow
 
