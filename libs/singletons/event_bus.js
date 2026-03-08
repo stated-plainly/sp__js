@@ -33,7 +33,7 @@ export class EventBus {
 		return EventBus;
     }
 
-    static trigger(event, ...args) {
+    static trigger(event, data) {
         if (!(typeof event === 'string')) {
             throw new Error(`Illegal 'event' value provided. Must be a string.`);
         }
@@ -43,7 +43,7 @@ export class EventBus {
         }
 
         for (const listener of EventBus.#events[event]) {
-            listener(...args);
+            listener(data);
         }
 
 		return EventBus;
