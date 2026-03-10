@@ -1,5 +1,5 @@
 // libs
-import { IllegalArgTypeError } from '../errors/illegal_arg_type_error.js';
+import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
 import { LexemeType } from './lexeme_type.js';
 import { Token } from './token.js';
 

@@ -1,7 +1,7 @@
 // libs
-import { ANSI_Palette } from '../graphics/ansi/ansi_palette.js';
-import { IllegalArgTypeError } from '../errors/illegal_arg_type_error.js';
-import { Text } from '../text/text.js';
+import { ANSI_Palette } from '../../graphics/ansi/ansi_palette.js';
+import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
+import { Text } from '../../text/text.js';
 
 export class Token {
 	#name;
