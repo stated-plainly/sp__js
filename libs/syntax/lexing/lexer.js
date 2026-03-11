@@ -81,9 +81,8 @@ export class Lexer {
 				token = new Token('--unknown--', source_code[i]);
 			}
 
-			i += token.value.length - 1;
-
 			if (token instanceof Token) {
+				i += token.value.length - 1;
 				this.#tokens.push(token);
 			}
 		}
