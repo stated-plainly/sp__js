@@ -4,7 +4,11 @@ import { Token } from '../lexing/token.js';
 import { UserError } from '../../errors/user_error.js';
 
 export class ParserFunctions {
-	static expect(token_name, token_value = null, tokens, line_index, char_index) {
+	static expect(tokens, token_name, token_value = null, line_index = null, char_index = null) {
+		if (!(Array.isArray(tokens) && tokens.every(t => t instanceof Token))) {
+			throw new IllegalArgTypeError('tokens', 'Array<Token>');
+		}
+		
 		if (!(typeof token_name === 'string')) {
 			throw new IllegalArgTypeError('token_name', 'String');
 		}
@@ -13,8 +17,12 @@ export class ParserFunctions {
 			throw new IllegalArgTypeError('token_value', 'String | null');
 		}
 
-		if (!(Array.isArray(tokens) && tokens.every(t => t instanceof Token))) {
-			throw new IllegalArgTypeError('tokens', 'Array<Token>');
+		if (!(Number.isInteger(line_index) || line_index === null)) {
+			throw new IllegalArgTypeError('line_index', 'Int | null');
+		}
+
+		if (!(Number.isInteger(char_index) || char_index === null)) {
+			throw new IllegalArgTypeError('char_index', 'Int | null');
 		}
 
 		const actual_token = ParserFunctions.#take_token(tokens);
@@ -27,7 +35,11 @@ export class ParserFunctions {
 		const is_match = (token_value === null) ? actual_token.has_same_name(expected_token) : actual_token.has_same_data(expected_token);
 
 		if (!is_match) {
-			throw new UserError(`Parse Error @[line: ${line_index} | char: ${char_index}] :: Expected ${expected_token.type_info}, encountered ${actual_token.type_info}.`);
+			if (line_index === null || char_index === null) {
+				throw new UserError(`Parse Error :: Expected ${expected_token.type_info}, encountered ${actual_token.type_info}.`);
+			} else {
+				throw new UserError(`Parse Error @[line: ${line_index} | char: ${char_index}] :: Expected ${expected_token.type_info}, encountered ${actual_token.type_info}.`);
+			}
 		}
 
 		return actual_token;
