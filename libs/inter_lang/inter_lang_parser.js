@@ -2,7 +2,7 @@
 import { ANSI_Palette } from '../graphics/ansi/ansi_palette.js';
 import { IllegalArgTypeError } from '../errors/illegal_arg_type_error.js';
 import { Text } from '../text/text.js';
-import { Token } from '../lexing/token.js';
+import { Token } from '../syntax/lexing/token.js';
 import { UserError } from '../errors/user_error.js';
 
 export class InterLangParser {

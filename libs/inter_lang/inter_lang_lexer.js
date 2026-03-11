@@ -1,5 +1,5 @@
 // libs
-import { Lexer } from '../lexing/lexer.js';
+import { Lexer } from '../syntax/lexing/lexer.js';
 
 export const inter_lang_lexer = new Lexer()
 	.add_pattern_lexeme('letter :: lower', /^[a-z]/)
