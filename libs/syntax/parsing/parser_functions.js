@@ -29,6 +29,8 @@ export class ParserFunctions {
 		if (!is_match) {
 			throw new UserError(`Parse Error @[line: ${line_index} | char: ${char_index}] :: Expected ${expected_token.type_info}, encountered ${actual_token.type_info}.`);
 		}
+
+		return actual_token;
 	}
 
 	static #take_token(tokens) {
