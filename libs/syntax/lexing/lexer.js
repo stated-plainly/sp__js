@@ -40,7 +40,7 @@ export class Lexer {
 		return this;
 	}
 
-	tokenise(source_code) {
+	tokenise(source_code, skip_unknowns = false) {
 		this.#tokens = [];
 
 		if (!(typeof source_code === 'string')) {
@@ -77,13 +77,15 @@ export class Lexer {
 				}
 			}
 
-			if (token === null) {
+			if (token === null && !(skip_unknowns === true)) {
 				token = new Token('--unknown--', source_code[i]);
 			}
 
 			i += token.value.length - 1;
 
-			this.#tokens.push(token);
+			if (token instanceof Token) {
+				this.#tokens.push(token);
+			}
 		}
 
 		return this.#tokens;
