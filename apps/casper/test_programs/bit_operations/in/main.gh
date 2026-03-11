@@ -1,0 +1,19 @@
+main () {
+	mut register : b8 = 0000_0001;
+
+	Console.log(`Expected: 0000_0001 | Got: {register}`);
+
+	register[3] = 1;
+
+	Console.log(`Expected: 0000_0101 | Got {register}`);
+
+	Console.log(`Expected: 1000_0101 | Got: {register}`);
+
+	register[2] = ~ditto;
+
+	Console.log(`Expected: 1000_0111 | Got: {register}`);
+
+	register = ~ditto;
+
+	Console.log(`Expected: 0111_1000 | Got: {register}`);
+}
