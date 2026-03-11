@@ -31,4 +31,20 @@ export class Token {
 	get type_info() {
 		return `Token(${ANSI_Palette.verb.apply_to(this.name)} ${ANSI_Palette.ancillary.apply_to('::')} ${ANSI_Palette.focal_point.apply_to(`"${Text.escape(this.value)}"`)})`;
 	}
+
+	has_same_data(other) {
+		if (!(other instanceof Token)) {
+			return false;
+		}
+
+		return other.name === this.name && other.value === this.value;
+	}
+
+	has_same_name(other) {
+		if (!(other instanceof Token)) {
+			return false;
+		}
+
+		return other.name === this.name;
+	}
 }
