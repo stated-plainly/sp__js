@@ -1,0 +1,23 @@
+import { Lexer } from '../../syntax/lexing/lexer.js';
+
+export const lexer = new Lexer()
+	.add_value_lexeme('whitespace', ' ')
+	.add_value_lexeme('tab', '\t')
+	.add_pattern_lexeme('newline', /^\r?\n/)
+	.add_value_lexeme('underscore', '_')
+	.add_value_lexeme('semi-colon', ';')
+	.add_value_lexeme('colon', ':')
+	.add_value_lexeme('back-tick', '`')
+	.add_value_lexeme('paren<open>', '(')
+	.add_value_lexeme('paren<close>', ')')
+	.add_value_lexeme('square<open>', '[')
+	.add_value_lexeme('square<close>', ']')
+	.add_value_lexeme('curly<open>', '{')
+	.add_value_lexeme('curly<close>', '}')
+	.add_value_lexeme('colon', ':')
+	.add_value_lexeme('squiggle', '~')
+	.add_value_lexeme('exclamation', '!')
+	.add_value_lexeme('pipe', '|')
+	.add_pattern_lexeme('letter<lower>', /^[a-z]/)
+	.add_pattern_lexeme('letter<upper>', /^[A-Z]/)
+	.add_pattern_lexeme('number', /^[0-9]/);
