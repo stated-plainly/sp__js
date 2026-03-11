@@ -6,4 +6,8 @@ export class PrintType {
 	static string() {
 		return `String`;
 	}
+
+	static symbol() {
+		return `Symbol`;
+	}
 }

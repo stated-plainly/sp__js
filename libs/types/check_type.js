@@ -7,6 +7,10 @@ export class CheckType {
 		return typeof string === 'string';
 	}
 
+	static is_symbol(symbol) {
+		return typeof symbol === 'symbol';
+	}
+
 	static is_type(value, type) {
 		if (!(typeof type === 'function' && 'prototype' in type)) {
 			return false;
