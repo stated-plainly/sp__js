@@ -1,4 +1,4 @@
-main () {
+main () => nothing {
 	mut register : b8 = 0000_0001;
 
 	Console.log(`Expected: 0000_0001 | Got: {register}`);
