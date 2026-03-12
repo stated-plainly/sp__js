@@ -1,4 +1,4 @@
-export class BuiltInID {
+export class PrimitiveID {
 	#id;
 
 	constructor() {
