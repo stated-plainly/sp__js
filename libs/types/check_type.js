@@ -11,6 +11,10 @@ export class CheckType {
 		return typeof symbol === 'symbol';
 	}
 
+	static is_list(list) {
+		return Array.isArray(list);
+	}
+
 	static is_type(value, type) {
 		if (!(typeof type === 'function' && 'prototype' in type)) {
 			return false;
