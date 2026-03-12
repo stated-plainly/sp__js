@@ -1,4 +1,4 @@
-export class VariableTypeID {
+export class AccessModifierID {
 	#id;
 
 	constructor() {
