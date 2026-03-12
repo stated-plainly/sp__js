@@ -4,7 +4,7 @@ import fs from 'fs';
 import { readFile } from 'fs/promises';
 // libs
 import { ANSI_Palette } from '../../../../libs/graphics/ansi/ansi_palette.js';
-import { EventBus } from '../../../../libs/singletons/event_bus.js';
+import { EventBus } from '../../../../libs/events/event_bus.js';
 import { InterLang } from '../../../../libs/inter_lang/inter_lang.js';
 import { UserError } from '../../../../libs/errors/user_error.js';
 import { Parser } from '../../../../libs/c/parser/parser.js';

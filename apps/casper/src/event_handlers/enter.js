@@ -1,5 +1,5 @@
 // libs
-import { EventBus } from '../../../../libs/singletons/event_bus.js';
+import { EventBus } from '../../../../libs/events/event_bus.js';
 // local
 import { build } from '../commands/build.js';
 import { run } from '../commands/run.js';

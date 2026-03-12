@@ -1,6 +1,6 @@
 // libs
 import { ANSI_Palette } from '../../../../libs/graphics/ansi/ansi_palette.js';
-import { EventBus } from '../../../../libs/singletons/event_bus.js';
+import { EventBus } from '../../../../libs/events/event_bus.js';
 import { Note } from '../../../../libs/music/note.js';
 import { ScaleDegree } from '../../../../libs/music/scale_degree.js';
 // local
