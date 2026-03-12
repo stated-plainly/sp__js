@@ -1,4 +1,4 @@
-export class AccessModifierID {
+export class TypeAccessModifierID {
 	#id;
 
 	constructor() {
