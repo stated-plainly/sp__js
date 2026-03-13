@@ -19,29 +19,4 @@ export class PrimitiveID {
 	static __u32 = Symbol();
 	static __u64 = Symbol();
 	static __u128 = Symbol();
-
-	static as_list() {
-		return [
-			// bit
-			PrimitiveID.__bit,
-			// b{size}
-			PrimitiveID.__b8,
-			PrimitiveID.__b16,
-			PrimitiveID.__b32,
-			PrimitiveID.__b64,
-			PrimitiveID.__b128,
-			// h{size}
-			PrimitiveID.__h8,
-			PrimitiveID.__h16,
-			PrimitiveID.__h32,
-			PrimitiveID.__h64,
-			PrimitiveID.__h128,
-			// u{size}
-			PrimitiveID.__u8,
-			PrimitiveID.__u16,
-			PrimitiveID.__u32,
-			PrimitiveID.__u64,
-			PrimitiveID.__u128,
-		];
-	}
 }
