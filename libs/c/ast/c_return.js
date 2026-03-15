@@ -1,19 +1,19 @@
-import { Constant } from './constant.js';
+import { CConstant } from './c_constant.js';
 import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
 
-export class Return {
-	#exp;
+export class CReturn {
+	#expression;
 
-	constructor(exp) {
-		if (!(exp instanceof Constant)) {
-			throw new IllegalArgTypeError('exp', 'Constant');
+	constructor(expression) {
+		if (!(expression instanceof CConstant)) {
+			throw new IllegalArgTypeError('exp', 'C<Constant>');
 		}
 
-		this.#exp = exp;
+		this.#expression = expression;
 	}
 
 	get exp() {
-		return this.#exp;
+		return this.#expression;
 	}
 	
 	type_info(tabs = 0, indent_first_line = true) {
@@ -23,7 +23,7 @@ export class Return {
 			root_tab_indents += '\t';
 		}
 
-		let type_info = `${indent_first_line ? root_tab_indents : ''}Return(\n`;
+		let type_info = `${indent_first_line ? root_tab_indents : ''}C<Return>(\n`;
 		type_info += `${root_tab_indents}\t${this.exp.type_info(tabs + 1, false)}\n`;
 		type_info += `${root_tab_indents})`;
 

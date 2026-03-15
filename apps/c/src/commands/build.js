@@ -7,8 +7,9 @@ import { ANSI_Palette } from '../../../../libs/graphics/ansi/ansi_palette.js';
 import { EventBus } from '../../../../libs/events/event_bus.js';
 import { InterLang } from '../../../../libs/inter_lang/inter_lang.js';
 import { UserError } from '../../../../libs/errors/user_error.js';
-import { Parser } from '../../../../libs/c/parser/parser.js';
-import { lexer } from '../../../../libs/c/lexer/lexer.js';
+
+import { CParser } from '../../../../libs/c/parser/c_parser.js';
+import { c_lexer } from '../../../../libs/c/lexer/c_lexer.js';
 
 export async function build() {
 	let config_il_text;
@@ -56,7 +57,7 @@ export async function build() {
 		EventBus.trigger('exit', {error_message: `${ANSI_Palette.focal_point.apply_to('C')} ${ANSI_Palette.ancillary.apply_to('::')} ${ANSI_Palette.verb.apply_to('build')} Error ${ANSI_Palette.ancillary.apply_to('::')} Failed to read ${ANSI_Palette.focal_point.apply_to(`./out/${config.entry}.i`)}.`});
 	}
 
-	console.log(Parser.parse(lexer.tokenise(c_entry_file_text, true)).type_info());	
+	console.log(CParser.parse(c_lexer.tokenise(c_entry_file_text, true)).type_info());	
 
 	// exec(`gcc ${process.cwd()}\\out\\${config.entry}.s -o ${process.cwd()}\\out\\${config.entry}.exe`, (err, stdout, stderr) => {
 	// 	if (err) {

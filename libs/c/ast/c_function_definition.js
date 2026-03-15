@@ -1,7 +1,7 @@
 import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
-import { Return } from './return.js';
+import { CReturn } from './c_return.js';
 
-export class Function {
+export class CFunctionDefinition {
 	#name;
 	#body
 
@@ -10,8 +10,8 @@ export class Function {
 			throw new IllegalArgTypeError('name', 'String');
 		}
 
-		if (!(body instanceof Return)) {
-			throw new IllegalArgTypeError('body', 'Return');
+		if (!(body instanceof CReturn)) {
+			throw new IllegalArgTypeError('body', 'C<Return>');
 		}
 
 		this.#name = name;
@@ -33,7 +33,7 @@ export class Function {
 			root_tab_indents += '\t';
 		}
 
-		let type_info = `${indent_first_line ? root_tab_indents : ''}Function(\n`;
+		let type_info = `${indent_first_line ? root_tab_indents : ''}C<FunctionDefinition>(\n`;
 		type_info += `${root_tab_indents}\tname: "${this.name}"\n`;
 		type_info += `${root_tab_indents}\tbody: ${this.body.type_info(tabs + 1, false)}\n`;
 		type_info += `${root_tab_indents})`;

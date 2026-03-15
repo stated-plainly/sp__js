@@ -1,6 +1,6 @@
 import { Lexer } from '../../syntax/lexing/lexer.js';
 
-export const lexer = new Lexer()
+export const c_lexer = new Lexer()
 	.add_pattern_lexeme('keyword :: int', /^int\b/)
 	.add_pattern_lexeme('keyword :: void', /^void\b/)
 	.add_pattern_lexeme('keyword :: return', /^return\b/)
