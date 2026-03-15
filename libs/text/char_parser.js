@@ -138,13 +138,27 @@ export class CharParser {
 	];
 
 	#char_list;
+	#chainable_expect
 
 	constructor() {
 		this.#char_list = [];
+		this.#chainable_expect = false;
 	}
 
 	load(string) {
 		this.#char_list = string.reverse();
+
+		return this;
+	}
+
+	chainable_expect(is_chainable) {
+		if (!CheckType.is_bool(is_chainable)) {
+			throw new IllegalArgTypeError('is_chainable', 'Bool');
+		}
+
+		this.#chainable_expect = is_chainable;
+
+		return this;
 	}
 
 	expect(char_or_special) {
@@ -209,6 +223,6 @@ export class CharParser {
 			}
 		}
 
-		return char;
+		return this.#chainable_expect ? this : char;
 	}
 }
