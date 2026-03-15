@@ -44,4 +44,12 @@ export class CheckType {
 
 		return key in object;
 	}
+
+	static list_has_item(list, item) {
+		if (!Array.isArray(list)) {
+			throw new IllegalArgTypeError('list', 'Array');
+		}
+
+		return list.includes(item);
+	}
 }

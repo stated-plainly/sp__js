@@ -165,8 +165,12 @@ export class CharParser {
 				throw new UserError(`Expected "${char_or_special}", Found: "${char}"`);
 			}
 		} else {
-			if (!(this.#char_list.length === 0 && char_or_special === CharParser.__end)) {
-				throw new UserError(`Expected "${char_or_special}", Found: "${CharParser.__end}"`);
+			if (this.#char_list.length === 0) {
+				if (char_or_special === CharParser.__end) {
+					return false;
+				} else {
+					throw new UserError(`Expected "${char_or_special}", Found: "${CharParser.__end}"`);
+				}
 			}
 
 			char = this.#char_list.pop();
