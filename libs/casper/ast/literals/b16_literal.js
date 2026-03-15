@@ -22,7 +22,7 @@ export class B16Literal {
 				char_parser.expect('_').expect('_');
 			}
 
-			for (let j = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
 				(j == 4) ? char_parser.expect('_') : char_parser.expect(CharParser.__binary); 
 			}
 		}
