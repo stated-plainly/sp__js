@@ -6,6 +6,7 @@ import { PrimitiveID } from '../../helpers/primitive_id.js';
 export class B128Literal {
 	static #type_id = PrimitiveID.__b128;
 
+	#id;
 	#value;
 
 	constructor(value) {
@@ -29,11 +30,16 @@ export class B128Literal {
 
 		char_parser.expect(CharParser.__end);
 
+		this.#id = Symbol();
 		this.#value = value;
 	}
 
 	get type_id() {
 		return B128Literal.#type_id;
+	}
+
+	get id() {
+		return this.#id;
 	}
 
 	get value() {
