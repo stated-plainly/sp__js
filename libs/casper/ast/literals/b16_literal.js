@@ -1,17 +1,33 @@
+import { CharParser } from '../../../text/char_parser.js';
 import { CheckType } from '../../../types/check_type.js';
 import { IllegalArgTypeError } from '../../../errors/illegal_arg_type_error.js';
 import { PrimitiveID } from '../../helpers/primitive_id.js';
 
 export class B16Literal {
 	static #type_id = PrimitiveID.__b16;
-	static #value_checker_regex = /^[01]{4}_[01]{4}__[01]{4}_[01]{4}$/;
 
 	#value;
 
 	constructor(value) {
-		if (!(CheckType.is_string(value) && B16Literal.#value_checker_regex.test(value))) {
-			throw new IllegalArgTypeError('value', 'String<b16 :: 0000_0000__0000_0000 to 1111_1111__1111_1111>');
+		if (!(CheckType.is_string(value))) {
+			throw new IllegalArgTypeError('value', 'String');
 		}
+
+		const char_parser = new CharParser()
+			.load(value)
+			.chainable_expect(true);
+
+		for (let i = 0; i < 2; i++) {
+			if (i > 0) {
+				char_parser.expect('_').expect('_');
+			}
+
+			for (let j = 0; i < 9; i++) {
+				(j == 4) ? char_parser.expect('_') : char_parser.expect(CharParser.__binary); 
+			}
+		}
+
+		char_parser.expect(CharParser.__end);
 
 		this.#value = value;
 	}

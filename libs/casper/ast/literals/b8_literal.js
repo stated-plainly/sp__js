@@ -13,13 +13,15 @@ export class B8Literal {
 			throw new IllegalArgTypeError('value', 'String');
 		}
 
-		new CharParser()
+		const char_parser = new CharParser()
 			.load(value)
-			.chainable_expect(true)
-			.expect(CharParser.__binary).expect(CharParser.__binary).expect(CharParser.__binary).expect(CharParser.__binary)
-			.expect('_')
-			.expect(CharParser.__binary).expect(CharParser.__binary).expect(CharParser.__binary).expect(CharParser.__binary)
-			.expect(CharParser.__end);
+			.chainable_expect(true);
+
+		for (let i = 0; i < 9; i++) {
+			(i == 4) ? char_parser.expect('_') : char_parser.expect(CharParser.__binary); 
+		}
+
+		char_parser.expect(CharParser.__end);
 
 		this.#value = value;
 	}

@@ -3,8 +3,8 @@ import { CheckType } from '../../../types/check_type.js';
 import { IllegalArgTypeError } from '../../../errors/illegal_arg_type_error.js';
 import { PrimitiveID } from '../../helpers/primitive_id.js';
 
-export class B32Literal {
-	static #type_id = PrimitiveID.__b32;
+export class B128Literal {
+	static #type_id = PrimitiveID.__b128;
 
 	#value;
 
@@ -17,7 +17,7 @@ export class B32Literal {
 			.load(value)
 			.chainable_expect(true);
 
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < 16; i++) {
 			if (i > 0) {
 				char_parser.expect('_').expect('_');
 			}
@@ -33,7 +33,7 @@ export class B32Literal {
 	}
 
 	get type_id() {
-		return B32Literal.#type_id;
+		return B128Literal.#type_id;
 	}
 
 	get value() {
