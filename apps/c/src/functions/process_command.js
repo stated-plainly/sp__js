@@ -1,9 +1,9 @@
 // libs
 import { EventBus } from '../../../../libs/events/event_bus.js';
 // local
-import { build } from './build.js';
+import { build } from '../commands/build.js';
 import { Command } from '../enums/command.js';
-import { run } from './run.js';
+import { run } from '../commands/run.js';
 
 export function process_command(command_text) {
 	const command = Command.from_text(command_text);

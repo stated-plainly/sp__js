@@ -1,12 +1,12 @@
-import { ConstantASTItem } from './constant_ast_item.js';
+import { Constant } from './constant.js';
 import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
 
-export class ReturnASTItem {
+export class Return {
 	#exp;
 
 	constructor(exp) {
-		if (!(exp instanceof ConstantASTItem)) {
-			throw new IllegalArgTypeError('exp', 'ASTItem<Return>');
+		if (!(exp instanceof Constant)) {
+			throw new IllegalArgTypeError('exp', 'Constant');
 		}
 
 		this.#exp = exp;
@@ -23,7 +23,7 @@ export class ReturnASTItem {
 			root_tab_indents += '\t';
 		}
 
-		let type_info = `${indent_first_line ? root_tab_indents : ''}ASTItem<Return>(\n`;
+		let type_info = `${indent_first_line ? root_tab_indents : ''}Return(\n`;
 		type_info += `${root_tab_indents}\t${this.exp.type_info(tabs + 1, false)}\n`;
 		type_info += `${root_tab_indents})`;
 

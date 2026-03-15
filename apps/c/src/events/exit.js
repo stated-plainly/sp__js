@@ -1,4 +1,4 @@
-import { print_help } from './print_help.js';
+import { print_help } from '../functions/print_help.js';
 
 export function exit(data) {
 	if (typeof data.error_message === 'string') {

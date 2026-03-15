@@ -1,7 +1,7 @@
 // libs
 import { EventBus } from '../../../../libs/events/event_bus.js';
 // local
-import { process_command } from './process_command.js';
+import { process_command } from '../functions/process_command.js';
 
 export function enter() {
 	switch (process.argv.length) {

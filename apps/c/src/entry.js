@@ -3,8 +3,8 @@
 // libs
 import { EventBus } from '../../../libs/events/event_bus.js';
 // local
-import { enter } from './functions/enter.js';
-import { exit } from './functions/exit.js';
+import { enter } from './events/enter.js';
+import { exit } from './events/exit.js';
 
 EventBus
 	.add('enter', enter)

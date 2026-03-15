@@ -1,9 +1,9 @@
-import { ConstantASTItem } from '../ast/constant_ast_item.js';
-import { FunctionASTItem } from '../ast/function_ast_item.js';
+import { Constant } from '../ast/constant.js';
+import { Function } from '../ast/function.js';
 import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
 import { ParserFunctions } from '../../syntax/parsing/parser_functions.js';
-import { ProgramASTItem } from '../ast/program_ast_item.js';
-import { ReturnASTItem } from '../ast/return_ast_item.js';
+import { Program } from '../ast/program.js';
+import { Return } from '../ast/return.js';
 import { Token } from '../../syntax/lexing/token.js';
 
 export class Parser {
@@ -19,7 +19,7 @@ export class Parser {
 
 	static #parse_program(tokens) {
 		const function_definition = Parser.#parse_function(tokens);
-		return new ProgramASTItem(function_definition);
+		return new Program(function_definition);
 	}
 
 	static #parse_function(tokens) {
@@ -30,18 +30,18 @@ export class Parser {
 		ParserFunctions.expect(tokens, 'paren :: close');
 		ParserFunctions.expect(tokens, 'curly :: open');
 		const body = Parser.#parse_statement(tokens);
-		return new FunctionASTItem(name, body);
+		return new Function(name, body);
 	}
 
 	static #parse_statement(tokens) {
 		ParserFunctions.expect(tokens, 'keyword :: return');
 		const return_val = Parser.#parse_exp(tokens);
 		ParserFunctions.expect(tokens, 'semi-colon');
-		return new ReturnASTItem(return_val);
+		return new Return(return_val);
 	}
 
 	static #parse_exp(tokens) {
 		const token = ParserFunctions.expect(tokens, 'constant');
-		return new ConstantASTItem(parseInt(token.value));
+		return new Constant(parseInt(token.value));
 	}
 }

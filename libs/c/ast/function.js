@@ -1,7 +1,7 @@
 import { IllegalArgTypeError } from '../../errors/illegal_arg_type_error.js';
-import { ReturnASTItem } from './return_ast_item.js';
+import { Return } from './return.js';
 
-export class FunctionASTItem {
+export class Function {
 	#name;
 	#body
 
@@ -10,8 +10,8 @@ export class FunctionASTItem {
 			throw new IllegalArgTypeError('name', 'String');
 		}
 
-		if (!(body instanceof ReturnASTItem)) {
-			throw new IllegalArgTypeError('body', 'ASTItem<Return>');
+		if (!(body instanceof Return)) {
+			throw new IllegalArgTypeError('body', 'Return');
 		}
 
 		this.#name = name;
@@ -33,7 +33,7 @@ export class FunctionASTItem {
 			root_tab_indents += '\t';
 		}
 
-		let type_info = `${indent_first_line ? root_tab_indents : ''}ASTItem<Function>(\n`;
+		let type_info = `${indent_first_line ? root_tab_indents : ''}Function(\n`;
 		type_info += `${root_tab_indents}\tname: "${this.name}"\n`;
 		type_info += `${root_tab_indents}\tbody: ${this.body.type_info(tabs + 1, false)}\n`;
 		type_info += `${root_tab_indents})`;
